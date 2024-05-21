@@ -1,4 +1,6 @@
 Simulation Study for Estimating Treatment Effects
+
+
 Overview
 This project compares the effectiveness of Propensity Score Matching (PSM) and Double Machine Learning (DML) in estimating treatment effects using the Infant Health and Development Program (IHDP) dataset. The study employs various machine learning models within the DML framework, including Random Forest, XGBoost, and Neural Network. The simulation aims to provide insights into the precision and stability of these methods in a realistic observational study setting.
 
