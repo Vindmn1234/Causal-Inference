@@ -9,7 +9,6 @@ Dataset
 The IHDP dataset includes data on 747 subjects with 25 variables, encompassing treatment assignment and various covariates. To simulate an observational study, selection bias is introduced by removing a non-random subset of treated individuals.
 
 Methods
-
 Propensity Score Matching (PSM)
 PSM involves:
 
