@@ -26,9 +26,8 @@ DML leverages machine learning models to flexibly model the relationships betwee
 
 ### Data Preparation
 1. Load the IHDP dataset.
-2. Introduce selection bias by removing a subset of treated individuals.
-3. Split the dataset into training and test sets.
-4. Define covariates, treatment, and outcome variables.
+2. Split the dataset into training and test sets.
+3. Define covariates, treatment, and outcome variables.
 
 ### PSM Implementation
 1. Estimate propensity scores using logistic regression.
