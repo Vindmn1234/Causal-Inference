@@ -49,12 +49,14 @@ The results are summarized in a table, highlighting the mean estimate, ATE, vari
 ## Dependencies
 
 - Python 3.6+
+- setuptools
 - pandas
 - numpy
 - scikit-learn
 - xgboost
 - doubleml
 - tabulate
+- openpyxl
 - Running the Simulation
 - Clone the repository and navigate to the project directory.
 - Ensure all dependencies are installed.
