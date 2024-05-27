@@ -14,7 +14,7 @@ The IHDP dataset includes data on 747 subjects with 25 variables, encompassing t
 PSM involves:
 1. Estimating propensity scores using logistic regression.
 2. Matching treated and untreated subjects based on their propensity scores.
-3. Estimating the treatment effect by comparing outcomes of matched pairs.
+3. Estimating the treatment effect by comparing outcomes of matched pairs(with different matching methods).
 
 ### Double Machine Learning (DML)
 DML leverages machine learning models to flexibly model the relationships between covariates and outcomes, orthogonalizing the estimation process to mitigate biases. The models used in this study are:
