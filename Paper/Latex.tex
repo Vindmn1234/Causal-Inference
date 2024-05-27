@@ -69,7 +69,7 @@ The propensity score \(e(X)\) is the probability of receiving treatment given ob
 \[
 e(X) = \Pr(T = 1 \mid X)
 \]
-The propensity score is estimated using logistic regression on the training dataset:
+The propensity score is estimated using logistic regression on the dataset:
 
 \begin{minted}{python}
 # Estimate propensity scores
@@ -80,8 +80,7 @@ df['propensity_score'] = \
 model.predict_proba(df.drop(['treatment', 'outcome'], axis=1))[:,1]
 \end{minted}
 
-\noindent The most common method is one-to-one matching, where each treated subject is matched with an untreated subject with a similar propensity score. After forming matched pairs, treatment effects can be estimated by directly comparing outcomes between treated and untreated subjects.
-
+\noindent A widely used method is one-to-one matching, the goal is to create pairs of treated and untreated units (individuals, subjects, etc.) that are similar in terms of their propensity scores, which are the probabilities of receiving the treatment given their observed covariates:
 
 \begin{minted}{python}
 # Separate the treated and untreated subjects in the training data
@@ -101,7 +100,7 @@ att_psm = (matched['outcome'] - matched['matched_outcome']).mean()
 \noindent Alternative matching methods include:
 
 \textbf{Many-to-One Matching:}
-Involves matching multiple untreated subjects to each treated subject, which can improve bias reduction compared to fixed one-to-one matching \cite{ming2000substantial}. The treated subject \(i\) is matched with \(M\) untreated subjects:
+Involves matching multiple untreated subjects to each treated subject, which can increase the efficiency and robustness by utilizing more of the available control data \cite{ming2000substantial}.The treated subject \(i\) is matched with \(M\) untreated subjects:
 \[
 \{j_1, j_2, \ldots, j_M\} = \arg \min_{j \in \text{Untreated}} |e(X_i) - e(X_j)|
 \]
@@ -273,7 +272,7 @@ from sklearn.ensemble import RandomForestRegressor, RandomForestClassifier
 from xgboost import XGBRegressor, XGBClassifier
 from sklearn.neural_network import MLPRegressor, MLPClassifier
 \end{minted}
-The DML process involves several steps. First, I split the dataset into five folds to prevent overfitting and facilitate cross-validation. This step ensures that the model’s performance is evaluated on unseen data, enhancing its generalizability. In each fold, I estimate the nuisance parameters, including the expected outcome given covariates and the propensity score model, using machine learning methods such as Random Forest, Gradient Boosting and Neural Network. Consider this is a relatively small dataset, for Random Forest, I set the number of estimators to 100, the maximum depth of each tree to 10 and a fixed random state for reproducibility; for Gradient Boosting (XGBoost), the number of estimators is also set to 100, with a maximum depth of 10 for each tree; for Neural Network, I use a multi-layer perceptron with a hidden layer size of 100 neurons and a maximum of 500 iterations. These estimates are crucial for constructing orthogonalized scores. I then proceed with orthogonalization, which involves calculating residuals from the nuisance parameter models and using these residuals to adjust the treatment effect estimates, thereby removing bias due to nuisance parameters. The final estimate of the treatment effect is obtained by combining the orthogonalized scores from all folds, leveraging the entire dataset while mitigating overfitting. Last but not least, I used bootstrapping methods to calcualte the mean, variance, and confidence interval (CI), which are statistical measures used to assess the performance and reliability of treatment effect estimates in PSM and DML methods, respectively.
+The DML process involves several steps. First, I split the dataset into five folds to prevent overfitting and facilitate cross-validation. This step ensures that the model’s performance is evaluated on unseen data, enhancing its generalizability. In each fold, I estimate the nuisance parameters, including the expected outcome given covariates and the propensity score model, using machine learning methods such as Random Forest, Gradient Boosting and Neural Network. Consider this is a relatively small dataset, for Random Forest, I set the number of estimators to 100, the maximum depth of each tree to 10 and a fixed random state for reproducibility; for Gradient Boosting (XGBoost), the number of estimators is also set to 100, with a maximum depth of 10 for each tree; for Neural Network, I use a multi-layer perceptron with a hidden layer size of 100 neurons and a maximum of 500 iterations. These estimates are crucial for constructing orthogonalized scores. I then proceed with orthogonalization, which involves calculating residuals from the nuisance parameter models and using these residuals to adjust the treatment effect estimates, thereby removing bias due to nuisance parameters. The final estimate of the treatment effect is obtained by combining the orthogonalized scores from all folds, leveraging the entire dataset while mitigating overfitting. Last but not least, I used bootstrapping methods(N=100) to calcualte the mean, variance, and confidence interval (CI), which are statistical measures used to assess the performance and reliability of treatment effect estimates in PSM and DML methods, respectively(implementation please view the appendix).
 
 \begin{minted}{python}
 dml_data = DoubleMLData.from_arrays(X.values, Y.values, T.values)
