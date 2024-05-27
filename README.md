@@ -44,7 +44,7 @@ DML leverages machine learning models to flexibly model the relationships betwee
 2. Calculate mean, variance, and confidence intervals for the estimates.
 
 ## Results
-The results are summarized in a table, highlighting the mean estimate, ATT, variance estimate, and 95% confidence intervals for each method.
+The results are summarized in a table, highlighting the mean estimate, ATE, variance estimate, and 95% confidence intervals for each method.
 
 ## Dependencies
 
